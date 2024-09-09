@@ -29,5 +29,16 @@ services:
       eh-emulator:
         aliases:
           - "azurite"
+  cosmosdb:
+    container_name: "cosmosdb"
+    image: "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest"
+    ports:
+      - "8081:8081"
+      - "10250-10255:10250-10255"
+    networks:
+      cosmosdb-emulator:
+        aliases:
+          - "cosmosdb"
 networks:
   eh-emulator:
+  cosmosdb-emulator:
