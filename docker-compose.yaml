@@ -35,6 +35,9 @@ services:
     ports:
       - "8081:8081"
       - "10250-10255:10250-10255"
+    environment:
+      - ENDPOINT_URL: ${COSMOS_ENDPOINT}
+      - AUTHORIZATION_KEY: ${COSMOS_AUTH_KEY}
     networks:
       cosmosdb-emulator:
         aliases:
