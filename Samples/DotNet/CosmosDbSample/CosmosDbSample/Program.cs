@@ -1,33 +1,21 @@
 ﻿using Microsoft.Azure.Cosmos;
-using System.ComponentModel;
-using System.Net;
 
 internal class Program
 {
+    private static readonly string endpoint = "https://localhost:8081";
+    private static readonly string authKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+
     private static readonly string databaseId = "samples";
     private static readonly string containerId = "container-samples";
 
-    private static Database database = null;
+    private static readonly string partitionKeyPath = "/activityId";
 
     public static async Task Main(string[] args)
     {
         CosmosClient client = new CosmosClient(endpoint, authKey);
 
-        database = await client.CreateDatabaseIfNotExistsAsync(databaseId);
+        Database database = await client.CreateDatabaseIfNotExistsAsync(id: databaseId);
 
+        Console.WriteLine($"A Database with id {databaseId} has been created.");
     }
-
-    // <CreateContainer>
-    private static async Task<Container> CreateContainer()
-    {
-        // Set throughput to the minimum value of 400 RU/s
-        ContainerResponse simpleContainer = await database.CreateContainerIfNotExistsAsync(
-            id: containerId,
-            partitionKeyPath: partitionKeyPath,
-            throughput: 400);
-
-        Console.WriteLine($"{Environment.NewLine}1.1. Created container :{simpleContainer.Container.Id}");
-        return simpleContainer;
-    }
-    // </CreateContainer>
 }
