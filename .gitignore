@@ -11,6 +11,7 @@
 *.suo
 *.user
 *.sln.docstates
+*.crt
 
 # Build results
 [Dd]ebug/
