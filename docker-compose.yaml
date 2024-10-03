@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  emulator:
-    container_name: "eventhubs-emulator"
+  eventhubs:
+    container_name: "eventhubs"
     image: "mcr.microsoft.com/azure-messaging/eventhubs-emulator:latest"
     volumes:
       - "${CONFIG_PATH}:/Eventhubs_Emulator/ConfigFiles/Config.json"
@@ -17,10 +17,13 @@ services:
     networks:
       eh-emulator:
         aliases:
-          - "eventhubs-emulator"
+          - "eventhubs"
   azurite:
     container_name: "azurite"
     image: "mcr.microsoft.com/azure-storage/azurite:latest"
+    volumes:
+      - "${INFRA_PATH}/StorageAccount/.ssl/127.0.0.1.pem:/.ssl/127.0.0.1.pem"
+      - "${INFRA_PATH}/StorageAccount/.ssl/127.0.0.1-key.pem:/.ssl/127.0.0.1-key.pem"
     ports:
       - "10000:10000"
       - "10001:10001"
@@ -29,6 +32,7 @@ services:
       eh-emulator:
         aliases:
           - "azurite"
+    # command: "azurite --oauth basic --cert /.ssl/127.0.0.1.pem --key /.ssl/127.0.0.1-key.pem"
   cosmosdb:
     container_name: "cosmosdb"
     image: "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest"
