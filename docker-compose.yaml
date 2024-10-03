@@ -32,7 +32,7 @@ services:
       eh-emulator:
         aliases:
           - "azurite"
-    # command: "azurite --oauth basic --cert /.ssl/127.0.0.1.pem --key /.ssl/127.0.0.1-key.pem"
+    # command: "azurite --oauth basic --blobHost 0.0.0.0  --queueHost 0.0.0.0 --tableHost 0.0.0.0 --cert /.ssl/127.0.0.1.pem --key /.ssl/127.0.0.1-key.pem"
   cosmosdb:
     container_name: "cosmosdb"
     image: "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest"
