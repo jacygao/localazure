@@ -17,13 +17,13 @@ internal class Program
 
         using var queryProvider = KustoClientFactory.CreateCslQueryProvider(kustoConnectionStringBuilder);
         using var adminProvider = KustoClientFactory.CreateCslAdminProvider(kustoConnectionStringBuilder);
-        using var ingestClient = KustoIngestFactory.CreateDirectIngestClient(kustoConnectionStringBuilder);
+        using var ingestClient = KustoIngestFactory.CreateQueuedIngestClient(kustoConnectionStringBuilder);
 
         try
         {
             await CreateDatabase(adminProvider);
             await CreateTable(adminProvider);
-            await IngestData(ingestClient);
+            //await IngestData(ingestClient);
             await QueryData(queryProvider);
         } catch (Exception ex)
         {
@@ -47,9 +47,12 @@ internal class Program
 
     private static async Task IngestData(IKustoIngestClient ingestClient)
     {
-        var data = "Column1,Column2\nValue1,Value2\nValue3,Value4";
-        var stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(data));
-        var ingestionProperties = new KustoIngestionProperties(DatabaseName, TableName);
+        var data = "Column1,Column2,Column3\nValue1,1,2024-01-01T00:00:00Z\nValue2,2,2024-01-02T00:00:00Z";
+        var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(data));
+        var ingestionProperties = new KustoIngestionProperties(DatabaseName, TableName)
+        {
+            Format = DataSourceFormat.csv,
+        };
         await ingestClient.IngestFromStreamAsync(stream, ingestionProperties);
         Console.WriteLine("Data ingested.");
     }
