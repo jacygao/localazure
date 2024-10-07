@@ -1,4 +1,4 @@
-﻿namespace CosmosDbSample
+﻿namespace CosmosDb
 {
     public record Product(
         string id,

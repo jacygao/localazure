@@ -1,4 +1,4 @@
-﻿using CosmosDbSample;
+﻿using CosmosDb;
 using Microsoft.Azure.Cosmos;
 
 internal class Program
@@ -62,7 +62,8 @@ internal class Program
 
             Console.WriteLine($"An item {item} has been upserted.");
 
-        } catch ( Exception ex )
+        }
+        catch (Exception ex)
         {
             Console.WriteLine($"{ex.Message}");
         }
