@@ -48,5 +48,5 @@ Please refer to the respective documentation for local configuration guide.
 | Cosmos DB | [Link](./Docs/CosmosDb.md)
 | Event Hub | [Link](./Docs/EventHub.md)
 | Azure Data Exploror (Kusto) | [Link](./Docs/Kusto.md)
-| Redis | [Link](./Docs/Redis.md)
+| Azure Cache for Redis | [Link](./Docs/Redis.md)
 | Storage Account | [Link](./Docs/StorageAccount.md)

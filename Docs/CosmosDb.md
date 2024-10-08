@@ -9,7 +9,7 @@ Under application root directory, run
 docker compose up
 ```
 
-Cosmos DB Emulator will be fully up once you see the following outputs:
+Cosmos DB Emulator is fully up once you see the following outputs:
 
 ```
 ...
@@ -38,7 +38,7 @@ To import SSL, under the root directory, run
 .\Scripts\CosmosDb\DownloadCert.ps1
 ```
 
-## Configure local Cosmos DB Client
+## Create local Cosmos DB Client
 
 ```
 private static readonly string endpoint = "https://localhost:8081";
@@ -50,4 +50,10 @@ CosmosClient client = new CosmosClient(endpoint, authKey);
 // Start your magic with the client
 ```
 
-You can find more examples [here](../Samples/DotNet/CosmosDBSample/Program.cs)
+You can find more examples [here](../Samples/DotNet/CosmosDbSample/Program.cs)
+
+## Management Portal
+
+You can interact with your local Cosmos DB via a management portal. 
+
+To access the management portal, after the Cosmos DB Emulator is up and running, go to the following URL in a web browser: https://localhost:8081/_explorer/index.html
