@@ -5,7 +5,7 @@ services:
     container_name: "eventhubs"
     image: "mcr.microsoft.com/azure-messaging/eventhubs-emulator:latest"
     volumes:
-      - "${CONFIG_PATH}:/Eventhubs_Emulator/ConfigFiles/Config.json"
+      - "${EVENTHUB_CONFIG_PATH}:/Eventhubs_Emulator/ConfigFiles/Config.json"
     ports:
       - "5672:5672"
     environment:
