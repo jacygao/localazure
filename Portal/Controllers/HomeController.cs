@@ -15,7 +15,16 @@ namespace Portal.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var operations = new List<HealthViewModel>
+            {
+                new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Success" },
+                new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Failed" },
+                new HealthViewModel { Service = "Cosmos DB", Operation = "Add Item", Status = "Success" },
+                new HealthViewModel { Service = "Cosmos DB", Operation = "Update Item", Status = "Success" },
+                new HealthViewModel { Service = "Cosmos DB", Operation = "Delete Item", Status = "Failed" }
+            };
+
+            return View(operations);
         }
 
         public IActionResult Privacy()

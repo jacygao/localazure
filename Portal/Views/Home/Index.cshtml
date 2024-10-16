@@ -1,8 +1,28 @@
-﻿@{
+﻿@model IEnumerable<HealthViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2>Operation Health</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Serivce</th>
+                <th>Operation</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var operation in Model)
+            {
+                <tr>
+                    <td>@operation.Service</td>
+                    <td>@operation.Operation</td>
+                    <td>@operation.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
