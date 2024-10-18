@@ -1,10 +1,25 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 # Define parameters for downloading the certificate
 $downloadParams = @{
     Uri                  = 'https://localhost:8081/_explorer/emulator.pem'
     Method               = 'GET'
     OutFile              = 'emulatorcert.crt'
-    SkipCertificateCheck = $True
+    # SkipCertificateCheck = $True
 }
+
+add-type @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(
+        ServicePoint srvPoint, X509Certificate certificate,
+        WebRequest request, int certificateProblem) {
+            return true;
+        }
+ }
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
 # Try to download the certificate
 try {
