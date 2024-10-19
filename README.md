@@ -36,10 +36,19 @@ Supported Azure Services for v1
 >Before you continue with the subsequent steps, make sure Docker Engine is operational in the background.
 
 ### Running localazure
-```bash
-docker compose up
-```
 
+#### Windows
+Start localazure by running:
+```powershell
+./Start.ps1
+```
+If you are running localazure for the first time, it will take some time to pull and install all the images. This will only happen for the first time. 
+
+You may need to run following command to set the execution policy for the current PowerShell session to "Bypass," allowing script to run without any restrictions. 
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+This change is not persistent; it only applies to the current session and does not affect other PowerShell sessions.
 ### Configuration
 Please refer to the respective documentation for local configuration guide.
 
