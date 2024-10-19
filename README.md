@@ -49,6 +49,16 @@ You may need to run following command to set the execution policy for the curren
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 This change is not persistent; it only applies to the current session and does not affect other PowerShell sessions.
+
+#### Docker Compose
+Start localazure by running:
+```powershell
+docker compose up
+```
+
+When start service via docker compose, some additional configuration need to be performed manually.
+Please refer to the Configuration section and following the respective doc to configure the service you need for local development.
+
 ### Configuration
 Please refer to the respective documentation for local configuration guide.
 
