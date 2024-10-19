@@ -1,12 +1,14 @@
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
 # Define parameters for downloading the certificate
 $downloadParams = @{
     Uri                  = 'https://localhost:8081/_explorer/emulator.pem'
     Method               = 'GET'
     OutFile              = 'emulatorcert.crt'
-    # SkipCertificateCheck = $True
 }
+
+# SkipCertificateCheck is supported from PowerShell 7
+if ($PSVersionTable.PSVersion.ToString() -gt "7.0.0") {
+    $downloadParams.SkipCertificateCheck = $True
+} else {
 
 add-type @"
 using System.Net;
@@ -19,7 +21,10 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
         }
  }
 "@
+
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
+}
 
 # Try to download the certificate
 try {
