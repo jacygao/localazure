@@ -1,8 +1,9 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Portal.Entities;
 
 namespace Portal.Services.CosmosDb
 {
-    public class CosmosDbService
+    public class CosmosDbService : ICosmosDbServiceProvider
     {
         private readonly CosmosDbOptions _options;
         private readonly CosmosClient _client;
@@ -12,22 +13,26 @@ namespace Portal.Services.CosmosDb
             _client = new CosmosClient(options.Endpoint, options.AuthKey);
         }
 
-        public async Task CreateDatabaseAsync()
+        public async Task<Database> CreateDatabaseAsync(string databaseId)
+        {
+            return await _client.CreateDatabaseIfNotExistsAsync(id: databaseId);
+        }
+
+        public async Task<Container> CreateContainerAsync(Database db, string containerId, string partitionKeyPath, int throughput)
+        {
+            return await db.CreateContainerIfNotExistsAsync(
+                id: containerId,
+                partitionKeyPath: partitionKeyPath,
+                throughput: throughput
+            );
+        }
+
+        public async Task CreateItemAsync(Product product, Container container)
         {
 
         }
 
-        public async Task CreateContainerAsync()
-        {
-
-        }
-
-        public async Task CreateItemAsync()
-        {
-
-        }
-
-        public async Task UpdateItem()
+        public async Task UpdateItem(Product product, Container container)
         {
 
         }
