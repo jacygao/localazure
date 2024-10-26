@@ -15,16 +15,28 @@ namespace Portal.Services.CosmosDb
 
         public async Task<Database> CreateDatabaseAsync(string databaseId)
         {
-            return await _client.CreateDatabaseIfNotExistsAsync(id: databaseId);
+            try
+            {
+                return await _client.CreateDatabaseIfNotExistsAsync(id: databaseId);
+            } catch (Exception ex) 
+            {
+                throw new CosmosDbException($"Failed to create database with id {databaseId}", Operation.CreateDatabase, ex);    
+            }
         }
 
         public async Task<Container> CreateContainerAsync(Database db, string containerId, string partitionKeyPath, int throughput)
         {
-            return await db.CreateContainerIfNotExistsAsync(
-                id: containerId,
-                partitionKeyPath: partitionKeyPath,
-                throughput: throughput
-            );
+            try
+            {
+                return await db.CreateContainerIfNotExistsAsync(
+                    id: containerId,
+                    partitionKeyPath: partitionKeyPath,
+                    throughput: throughput
+                );
+            } catch(Exception ex)
+            {
+                throw new CosmosDbException($"Failed to create container with id {containerId}", Operation.CreateContainer, ex);
+            }
         }
 
         public async Task CreateItemAsync(Product product, Container container)

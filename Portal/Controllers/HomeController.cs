@@ -22,14 +22,20 @@ namespace Portal.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            var operations = new List<HealthViewModel>
+            // Map Operation to Status
+            Dictionary<string, string> operations = new()
             {
-                new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Healthy" },
-                new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Healthy" },
-                new HealthViewModel { Service = "Cosmos DB", Operation = "Add Item", Status = "Healthy" },
-                new HealthViewModel { Service = "Cosmos DB", Operation = "Update Item", Status = "Healthy" },
-                new HealthViewModel { Service = "Cosmos DB", Operation = "Delete Item", Status = "Healthy" }
+                { "Create Database", "Healthy" },
+                { "Create Container", "Healthy" },
+                { "Create Item", "Healthy" },
+                { "Upsert Item", "Healthy" },
+                { "Replace Item", "Healthy" },
+                { "Delete Item", "Healthy" }
             };
+
+            List<HealthViewModel> operations = new();
+
+            List<CosmosDbException> cosmosDbExceptions = new();
 
             try
             {
@@ -39,6 +45,16 @@ namespace Portal.Controllers
             {
                 _logger.LogError(ex.Message);
                 operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Unhealthy" });
+            }
+
+            try
+            {
+                _ = await _cosmosDbService.CreateContainerAsync(CosmosDbConstants.DatabaseId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Unhealthy" });
             }
 
             return View(operations);
