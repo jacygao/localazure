@@ -5,17 +5,17 @@ namespace Portal.Services.CosmosDb
 {
     public interface ICosmosDbServiceProvider
     {
-        public Task<Database> CreateDatabaseAsync(string databaseId);
+        public Task<CreateDatabaseResult> CreateDatabaseAsync(string databaseId);
 
-        public Task<Container> CreateContainerAsync(Database db, string containerId, string partitionKeyPath, int throughput);
+        public Task<CreateContainerResult> CreateContainerAsync(Database db, string containerId, string partitionKeyPath, int throughput);
 
-        public Task CreateItemAsync(Product product, Container container);
+        public Task<CosmosDbResult> CreateItemAsync(Container container, Product product);
 
-        public Task ReplaceItem();
+        public Task<CosmosDbResult> ReplaceItemAsync(Container container, Product product);
 
-        public Task UpsertItem(Product product, Container container);
+        public Task<CosmosDbResult> UpsertItemAsync(Container container, Product product);
 
-        public Task DeleteItem();
+        public Task<CosmosDbResult> DeleteItemAsync();
 
     }
 }

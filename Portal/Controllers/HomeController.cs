@@ -25,16 +25,15 @@ namespace Portal.Controllers
             // Map Operation to Status
             Dictionary<string, string> operations = new()
             {
-                { "Create Database", "Healthy" },
-                { "Create Container", "Healthy" },
-                { "Create Item", "Healthy" },
-                { "Upsert Item", "Healthy" },
-                { "Replace Item", "Healthy" },
-                { "Delete Item", "Healthy" }
+                { "Create Database", "Unhealthy" },
+                { "Create Container", "Unhealthy" },
+                { "Create Item", "Unhealthy" },
+                { "Upsert Item", "Unhealthy" },
+                { "Replace Item", "Unhealthy" },
+                { "Delete Item", "Unhealthy" }
             };
 
             List<HealthViewModel> operations = new();
-
             List<CosmosDbException> cosmosDbExceptions = new();
 
             try
@@ -49,6 +48,7 @@ namespace Portal.Controllers
 
             try
             {
+                _ = await _cosmosDbService.CreateContainerAsync(CosmosDbConstants.DatabaseId);
                 _ = await _cosmosDbService.CreateContainerAsync(CosmosDbConstants.DatabaseId);
             }
             catch (Exception ex)
