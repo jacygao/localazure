@@ -32,7 +32,12 @@ namespace Portal.Services.CosmosDb
 
         }
 
-        public async Task UpdateItem(Product product, Container container)
+        public async Task UpsertItem(Product product, Container container)
+        {
+
+        }
+
+        public async Task ReplaceItem()
         {
 
         }
