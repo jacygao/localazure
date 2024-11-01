@@ -10,20 +10,19 @@ namespace Portal.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ICosmosDbServiceProvider _cosmosDbService;
+        //private readonly ICosmosDbServiceProvider _cosmosDbService;
 
         public HomeController(
-            ILogger<HomeController> logger, 
-            ICosmosDbServiceProvider cosmosDbService)
+            ILogger<HomeController> logger)
         {
             _logger = logger;
-            _cosmosDbService = cosmosDbService;
+            //_cosmosDbService = cosmosDbService;
         }
 
         public async Task<IActionResult> IndexAsync()
         {
             // Map Operation to Status
-            Dictionary<string, string> operations = new()
+            Dictionary<string, string> operationMap = new()
             {
                 { "Create Database", "Unhealthy" },
                 { "Create Container", "Unhealthy" },
@@ -35,27 +34,30 @@ namespace Portal.Controllers
 
             List<HealthViewModel> operations = new();
             List<CosmosDbException> cosmosDbExceptions = new();
+            operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Healthy" });
+            //try
+            //{
+            //    _ = await _cosmosDbService.CreateDatabaseAsync(CosmosDbConstants.DatabaseId);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex.Message);
+            //    operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Unhealthy" });
+            //}
 
-            try
-            {
-                _ = await _cosmosDbService.CreateDatabaseAsync(CosmosDbConstants.DatabaseId);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Unhealthy" });
-            }
+            //try
+            //{
+            //    var createDbResult = await _cosmosDbService.CreateDatabaseAsync(CosmosDbConstants.DatabaseId);
+            //    operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Database", Status = "Healthy" });
 
-            try
-            {
-                _ = await _cosmosDbService.CreateContainerAsync(CosmosDbConstants.DatabaseId);
-                _ = await _cosmosDbService.CreateContainerAsync(CosmosDbConstants.DatabaseId);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Unhealthy" });
-            }
+            //    var createConatinerResult = await _cosmosDbService.CreateContainerAsync(createDbResult.Database, "test_container", "test_key", 400);
+            //    operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Healthy" });
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex.Message);
+            //    operations.Add(new HealthViewModel { Service = "Cosmos DB", Operation = "Create Container", Status = "Unhealthy" });
+            //}
 
             return View(operations);
         }
