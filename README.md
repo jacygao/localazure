@@ -35,9 +35,9 @@ Supported Azure Services for v1
 >[!NOTE]
 >Before you continue with the subsequent steps, make sure Docker Engine is operational in the background.
 
-### Running localazure
+### Start localazure
 
-#### Windows
+#### Start localazure on Windows
 Start localazure by running:
 ```powershell
 ./Start.ps1
@@ -49,6 +49,16 @@ You may need to run following command to set the execution policy for the curren
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 This change is not persistent; it only applies to the current session and does not affect other PowerShell sessions.
+
+#### Start localazure via Docker Compose
+In localazure root diretory, run
+```
+docker compose up
+```
+
+>[!NOTE]
+>Additional configuration steps are required when using docker compose. For details refer to the Configuration section.
+
 ### Configuration
 Please refer to the respective documentation for local configuration guide.
 
