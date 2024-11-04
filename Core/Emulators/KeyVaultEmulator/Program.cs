@@ -1,7 +1,16 @@
+using KeyController;
+using KeyVaultEmulator.Controllers.KeyController;
+using KeyVaultEmulator.Providers.StoreProvider;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<IStoreProvider, InMemoryStoreProvider>();
 
+// Register the IController implementation
+builder.Services.AddScoped<IController, KeyControllerImpl>();
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
