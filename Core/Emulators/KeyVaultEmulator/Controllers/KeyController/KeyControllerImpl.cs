@@ -1,11 +1,20 @@
 ﻿using KeyController;
 using KeyVaultEmulator.Providers.StoreProvider;
+using System.Security.Cryptography;
 using System.Text.Json;
+using KeyVaultEmulator.Emulators.KeyVault;
 
 namespace KeyVaultEmulator.Controllers.KeyController
 {
     public class KeyControllerImpl : IController
     {
+        private const int DefaultKeySize = 2048;
+        private const JsonWebKeyCrv DefaultCrv = JsonWebKeyCrv.P256;
+        private List<string> DefaultKeyOps = new()
+        {
+            "encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"
+        };
+
         private IStoreProvider _store;
         public KeyControllerImpl(IStoreProvider store) {
             this._store = store;
@@ -18,8 +27,47 @@ namespace KeyVaultEmulator.Controllers.KeyController
 
         public Task<KeyBundle> CreateKeyAsync(string key_name, KeyCreateParameters parameters, string api_version)
         {
-            _store.Save(key_name, JsonSerializer.Serialize(parameters));
-            throw new NotImplementedException();
+            try
+            {
+                // Generate RSA key
+                using var rsa = new RSACryptoServiceProvider(DefaultKeySize);
+                var rsaParameters = rsa.ExportParameters(true);
+
+                _store.Save(key_name, JsonSerializer.Serialize(parameters));
+
+                var currentUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                KeyBundle response = new()
+                {
+                    Key = new JsonWebKey
+                    {
+                        Kid = Utils.GenerateVersionIdentifier(),
+                        Kty = (JsonWebKeyKty?)parameters.Kty,
+                        Key_ops = parameters.Key_ops.Count > 0 ? parameters.Key_ops.Select(op => op.ToString()).ToList() : DefaultKeyOps,
+                        N = Convert.ToBase64String(rsaParameters.Modulus),
+                        E = Convert.ToBase64String(rsaParameters.Exponent),
+                        D = Convert.ToBase64String(rsaParameters.D),
+                        Dp = Convert.ToBase64String(rsaParameters.DP),
+                        Dq = Convert.ToBase64String(rsaParameters.DQ),
+                        Qi = Convert.ToBase64String(rsaParameters.InverseQ),
+                        P = Convert.ToBase64String(rsaParameters.P),
+                        Q = Convert.ToBase64String(rsaParameters.Q),
+                        K = null, // Not applicable for RSA
+                        Key_hsm = null, // Not applicable for this example
+                        Crv = parameters.Crv == null ? (JsonWebKeyCrv?)parameters.Crv : DefaultCrv,
+                        X = null, // Not applicable for RSA
+                        Y = null // Not applicable for RSA
+                    },
+                    Attributes = new KeyAttributes
+                    {
+                        Created = (int?)currentUnixTimestamp,
+                        Updated = (int?)currentUnixTimestamp,
+                    }
+                };
+            } catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<KeyOperationResult> DecryptAsync(string key_name, string key_version, KeyOperationsParameters parameters, string api_version)
