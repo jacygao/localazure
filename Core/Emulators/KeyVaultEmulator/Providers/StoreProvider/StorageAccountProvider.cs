@@ -1,4 +1,4 @@
-﻿namespace KeyVaultEmulator.Providers.StoreProvider
+﻿namespace Emulator.Providers.StoreProvider
 {
     public class StorageAccountProvider : IStoreProvider
     {

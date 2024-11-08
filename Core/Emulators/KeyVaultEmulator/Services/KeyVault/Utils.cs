@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace KeyVaultEmulator.Emulators.KeyVault
+namespace Emulator.Services.KeyVault
 {
     public class Utils
     {

@@ -475,7 +475,7 @@ namespace KeyController
         /// <param name="parameters">The parameters to create a key.</param>
         /// <param name="api_version">Client API version.</param>
         /// <returns>A key bundle containing the result of the create key request.</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("keys/{key-name}/create")]
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("keys/{key_name}/create")]
         public System.Threading.Tasks.Task<KeyBundle> CreateKey(string key_name, [Microsoft.AspNetCore.Mvc.FromBody] KeyCreateParameters parameters, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
         {
 

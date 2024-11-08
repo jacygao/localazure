@@ -1,10 +1,10 @@
 ﻿using KeyController;
-using KeyVaultEmulator.Providers.StoreProvider;
+using Emulator.Providers.StoreProvider;
 using System.Security.Cryptography;
 using System.Text.Json;
-using KeyVaultEmulator.Emulators.KeyVault;
+using Emulator.Services.KeyVault;
 
-namespace KeyVaultEmulator.Controllers.KeyController
+namespace Emulator.Controllers.KeyVault.KeyController
 {
     public class KeyControllerImpl : IController
     {
@@ -16,8 +16,9 @@ namespace KeyVaultEmulator.Controllers.KeyController
         };
 
         private IStoreProvider _store;
-        public KeyControllerImpl(IStoreProvider store) {
-            this._store = store;
+        public KeyControllerImpl(IStoreProvider store)
+        {
+            _store = store;
         }
 
         public Task<BackupKeyResult> BackupKeyAsync(string key_name, string api_version)
@@ -25,7 +26,7 @@ namespace KeyVaultEmulator.Controllers.KeyController
             throw new NotImplementedException();
         }
 
-        public Task<KeyBundle> CreateKeyAsync(string key_name, KeyCreateParameters parameters, string api_version)
+        public async Task<KeyBundle> CreateKeyAsync(string key_name, KeyCreateParameters parameters, string api_version)
         {
             try
             {
@@ -64,7 +65,11 @@ namespace KeyVaultEmulator.Controllers.KeyController
                         Updated = (int?)currentUnixTimestamp,
                     }
                 };
-            } catch (Exception)
+
+                return response;
+
+            }
+            catch (Exception)
             {
                 throw;
             }

@@ -1,6 +1,7 @@
 using KeyController;
-using KeyVaultEmulator.Controllers.KeyController;
-using KeyVaultEmulator.Providers.StoreProvider;
+using Emulator.Controllers.KeyVault.KeyController;
+using Emulator.Controllers.KeyVault.CertificateController;
+using Emulator.Providers.StoreProvider;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IStoreProvider, InMemoryStoreProvider>();
 
 // Register the IController implementation
-builder.Services.AddScoped<IController, KeyControllerImpl>();
+builder.Services.AddScoped<KeyController.IController, KeyControllerImpl>();
+builder.Services.AddScoped<CertificateController.IController, CertificateControllerImpl>();
 
 // Add services to the container.
 builder.Services.AddControllers();

@@ -766,7 +766,7 @@ namespace CertificateController
         /// <param name="certificate_version">The version of the certificate. This URI fragment is optional. If not specified, the latest version of the certificate is returned.</param>
         /// <param name="api_version">Client API version.</param>
         /// <returns>The retrieved certificate.</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("certificates/{certificate-name}/{certificate-version}")]
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("certificates/{certificate_name}/{certificate_version}")]
         public System.Threading.Tasks.Task<CertificateBundle> GetCertificate(string certificate_name, string certificate_version, [Microsoft.AspNetCore.Mvc.FromQuery(Name = "api-version")] string api_version)
         {
 
