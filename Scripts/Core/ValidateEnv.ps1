@@ -1,3 +1,11 @@
+# Function to set text color in the console
+function Set-TextColor {
+    param (
+        [ConsoleColor]$color
+    )
+    $Host.UI.RawUI.ForegroundColor = $color
+}
+
 # Check if Docker is installed
 if (Get-Command docker -ErrorAction SilentlyContinue) {
     Write-Host "Docker is installed."
@@ -17,17 +25,37 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
     # Wait for all containers to start
     Write-Host "Waiting for containers to start..."
     $containers = docker compose ps -q
+    
     foreach ($container in $containers) {
-        Write-Host $container
+        $containerName = docker inspect -f '{{.Name}}' $container
+        $containerName = $containerName.Trim('/') 
+
+        # Display initial status
+        Write-Host "$containerName starting" -NoNewline
+
         do {
             $status = (docker container inspect -f '{{.State.Status}}' $container)
-            Start-Sleep -Seconds 5
+            Start-Sleep -Seconds 1
+
+            # Update status on the same line
+            if ($status -ne 'running') {
+                Write-Host "`r$containerName starting" -NoNewline
+            }
+
         } while ($status -ne 'running')
+
+        # Update final status to "started" in green
+        Write-Host "`r$([char]27)[2K$containerName " -NoNewline
+        Set-TextColor -color Green
+        Write-Host "started" -NoNewline
+        Set-TextColor -color White
+        Write-Host ""
     }
+    
     Write-Host "All containers are started."
     
     # Run the specified script
-    Write-Host "All containers are started. Install CosmosDB Certificate..."
+    Write-Host "Install CosmosDB Certificate..."
     .\Scripts\CosmosDb\InstallCert.ps1
     
 } else {

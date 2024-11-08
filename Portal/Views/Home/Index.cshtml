@@ -1,0 +1,27 @@
+﻿@model IEnumerable<HealthViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h2>Operation Health</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Serivce</th>
+                <th>Operation</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var operation in Model)
+            {
+                <tr>
+                    <td>@operation.Service</td>
+                    <td>@operation.Operation</td>
+                    <td>@operation.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
