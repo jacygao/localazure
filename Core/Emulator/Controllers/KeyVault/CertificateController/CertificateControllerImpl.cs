@@ -10,11 +10,10 @@ namespace Emulator.Controllers.KeyVault.CertificateController
 
         public CertificateControllerImpl()
         {
-            string jsonFilePath = "Mock/KeyVault/Certificate/mock.json";
+            string jsonFilePath = "Mock/KeyVault/Certificate.json";
             string jsonString = File.ReadAllText(jsonFilePath);
 
             _mock = JsonConvert.DeserializeObject<Mock>(jsonString);
-            Console.WriteLine(_mock);
         }
 
         public Task<BackupCertificateResult> BackupCertificateAsync(string certificate_name, string api_version)

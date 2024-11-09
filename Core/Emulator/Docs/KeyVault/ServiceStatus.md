@@ -31,18 +31,18 @@ This page shows supported operations in Key Vault Emulator
 
 | API    | Mock | CRUD | Emulator
 | ------- | ------ | ------ | ------ |
-| BackupSecret | No | No | No 
-| DeleteSecret | No | No | No 
-| GetDeletedSecret | No | No | No 
-| GetDeletedSecrets | No | No | No 
-| GetSecret | No | No | No 
-| GetSecretVersions | No | No | No 
-| GetSecrets | No | No | No 
+| BackupSecret | Yes | No | No 
+| DeleteSecret | Yes | No | No 
+| GetDeletedSecret | Yes | No | No 
+| GetDeletedSecrets | Yes | No | No 
+| GetSecret | Yes | No | No 
+| GetSecretVersions | Yes | No | No 
+| GetSecrets | Yes | No | No 
 | PurgeDeletedSecret | No | No | No 
-| RecoverDeletedSecret | No | No | No 
-| RotateSecret | No | No | No 
-| SetSecret | No | No | No 
-| UpdateSecret | No | No | No 
+| RecoverDeletedSecret | Yes | No | No 
+| RotateSecret | Yes | No | No 
+| SetSecret | Yes | No | No 
+| UpdateSecret | Yes | No | No 
 
 ### Certificate
 

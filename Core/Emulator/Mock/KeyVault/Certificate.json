@@ -348,9 +348,7 @@
       }
     }
   },
-  "PurgeDeletedCertificate": {
-  },
-
+  "PurgeDeletedCertificate": {},
   "CreateCertificate": {
     "id": "https://myvault.vault.localazure.net/certificates/selfSignedCert01/pending",
     "issuer": {
