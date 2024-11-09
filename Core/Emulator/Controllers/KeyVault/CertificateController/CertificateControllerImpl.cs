@@ -24,12 +24,12 @@ namespace Emulator.Controllers.KeyVault.CertificateController
 
         public async Task<CertificateOperation> CreateCertificateAsync(string certificate_name, CertificateCreateParameters parameters, string api_version)
         {
-            return _mock?.CreateCertificateAsync!;
+            return _mock?.CreateCertificate!;
         }
 
-        public Task<DeletedCertificateBundle> DeleteCertificateAsync(string certificate_name, string api_version)
+        public async Task<DeletedCertificateBundle> DeleteCertificateAsync(string certificate_name, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.DeleteCertificate!;
         }
 
         public Task<Contacts> DeleteCertificateContactsAsync(string api_version)
@@ -49,27 +49,27 @@ namespace Emulator.Controllers.KeyVault.CertificateController
 
         public async Task<CertificateBundle> GetCertificateAsync(string certificate_name, string certificate_version, string api_version)
         {
-            return _mock?.GetCertificateAsync!;
+            return _mock?.GetCertificate!;
         }
 
-        public Task<Contacts> GetCertificateContactsAsync(string api_version)
+        public async Task<Contacts> GetCertificateContactsAsync(string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.GetCertificateContacts!;
         }
 
-        public Task<IssuerBundle> GetCertificateIssuerAsync(string issuer_name, string api_version)
+        public async Task<IssuerBundle> GetCertificateIssuerAsync(string issuer_name, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.GetCertificateIssuer!;
         }
 
-        public Task<CertificateIssuerListResult> GetCertificateIssuersAsync(int? maxresults, string api_version)
+        public async Task<CertificateIssuerListResult> GetCertificateIssuersAsync(int? maxresults, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.GetCertificateIssuers!;
         }
 
-        public Task<CertificateOperation> GetCertificateOperationAsync(string certificate_name, string api_version)
+        public async Task<CertificateOperation> GetCertificateOperationAsync(string certificate_name, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.GetCertificateOperaion!;
         }
 
         public Task<CertificatePolicy> GetCertificatePolicyAsync(string certificate_name, string api_version)
@@ -97,14 +97,14 @@ namespace Emulator.Controllers.KeyVault.CertificateController
             throw new NotImplementedException();
         }
 
-        public Task<CertificateBundle> ImportCertificateAsync(string certificate_name, CertificateImportParameters parameters, string api_version)
+        public async Task<CertificateBundle> ImportCertificateAsync(string certificate_name, CertificateImportParameters parameters, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.ImportCertificate!;
         }
 
-        public Task<CertificateBundle> MergeCertificateAsync(string certificate_name, CertificateMergeParameters parameters, string api_version)
+        public async Task<CertificateBundle> MergeCertificateAsync(string certificate_name, CertificateMergeParameters parameters, string api_version)
         {
-            throw new NotImplementedException();
+            return _mock?.MergeCertificate!;
         }
 
         public Task PurgeDeletedCertificateAsync(string certificate_name, string api_version)
