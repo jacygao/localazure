@@ -56,22 +56,22 @@ services:
       - "8080:8080"
     environment:
       ACCEPT_EULA: ${ACCEPT_EULA}
-  portal:
-    build:
-      context: ./portal
-      dockerfile: Dockerfile
-    container_name: portal
-    ports:
-      - "3080:8080"
-      - "3081:443"
-    environment:
-      - ASPNETCORE_URLS=https://+;http://+
-      - ASPNETCORE_HTTPS_PORTS=3081
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Portal.pfx
-    volumes:
-      - "SSL:/root/.aspnet/https/"
+  # portal:
+  #   build:
+  #     context: ./portal
+  #     dockerfile: Dockerfile
+  #   container_name: portal
+  #   ports:
+  #     - "3080:8080"
+  #     - "3081:443"
+  #   environment:
+  #     - ASPNETCORE_URLS=https://+;http://+
+  #     - ASPNETCORE_HTTPS_PORTS=3081
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+  #     - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/Portal.pfx
+  #   volumes:
+  #     - "SSL:/root/.aspnet/https/"
 networks:
   eh-emulator:
   cosmosdb-emulator:
