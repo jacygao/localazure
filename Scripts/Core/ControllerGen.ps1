@@ -1,6 +1,6 @@
 # Prompt user for paths
-$openApiSpecPath = Read-Host -Prompt "Enter the path to the OpenAPI spec file"
-$outputPath = Read-Host -Prompt "Enter the desired output path for the generated controllers"
+$openApiSpecPath = "./Specifications"
+$outputPath = "./Core/Emulator/Controllers"
 
 # Check if NSwag is installed
 if (-not (Get-Command nswag -ErrorAction SilentlyContinue)) {
@@ -8,13 +8,26 @@ if (-not (Get-Command nswag -ErrorAction SilentlyContinue)) {
     dotnet tool install -g NSwag.ConsoleCore
 }
 
-# Run NSwag to generate controllers
-Write-Host "Generating controllers from OpenAPI spec..."
-nswag openapi2cscontroller /input:$openApiSpecPath /output:$outputPath
+# Get all subdirectories in the OpenAPI spec path
+$specDirectories = Get-ChildItem -Directory -Path $openApiSpecPath
 
-# Check if the file was generated
-if (Test-Path $outputPath) {
-    Write-Host "Controllers generated successfully: $outputPath"
-} else {
-    Write-Host "Failed to generate controllers."
+# Get all files in the subdirectory
+$specFiles = Get-ChildItem -File -Path $inputPath
+
+# Loop through each subdirectory and generate controllers
+foreach ($file in $specFiles) {
+    $fileName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
+    $controllerName = "{0}Controller.cs" -f ($fileName.Substring(0,1).ToUpper() + $fileName.Substring(1))
+    $outputFilePath = Join-Path $outputDir $controllerName
+
+    # Run NSwag to generate controller
+    Write-Host "Generating controller from OpenAPI spec in $file.FullName..."
+    nswag openapi2cscontroller /input:$file.FullName /output:$outputFilePath
+
+    # Check if the file was generated
+    if (Test-Path $outputFilePath) {
+        Write-Host "Controller generated successfully: $outputFilePath"
+    } else {
+        Write-Host "Failed to generate controller for $file.FullName."
+    }
 }
