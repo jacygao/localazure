@@ -2,6 +2,8 @@ using KeyController;
 using Emulator.Controllers.KeyVault.KeyController;
 using Emulator.Controllers.KeyVault.CertificateController;
 using Emulator.Providers.StoreProvider;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,28 @@ builder.Services.AddScoped<CertificateController.IController, CertificateControl
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API V1"
+    });
+
+    c.TagActionsBy(api =>
+    {
+        if (api.GroupName != null)
+        {
+            return new[] { api.GroupName };
+        }
+        if (api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+        {
+            return new[] { controllerActionDescriptor.ControllerName };
+        }
+        throw new InvalidOperationException("Unable to determine tag for endpoint.");
+    });
+    c.DocInclusionPredicate((name, api) => true);
+});
 
 var app = builder.Build();
 

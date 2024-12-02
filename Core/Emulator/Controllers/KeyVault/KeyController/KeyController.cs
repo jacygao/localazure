@@ -20,6 +20,7 @@
 
 namespace KeyController
 {
+    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -456,6 +457,7 @@ namespace KeyController
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
 
+    [ApiExplorerSettings(GroupName = "Keys")]
     public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IController _implementation;
