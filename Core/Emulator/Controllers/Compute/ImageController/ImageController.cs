@@ -20,6 +20,7 @@
 
 namespace ImageController
 {
+    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -125,7 +126,7 @@ namespace ImageController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-
+    [ApiExplorerSettings(GroupName = "Compute/Images")]
     public partial class ImagesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IImagesController _implementation;
