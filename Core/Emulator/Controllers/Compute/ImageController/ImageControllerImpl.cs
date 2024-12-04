@@ -25,9 +25,9 @@ namespace Emulator.Controllers.Compute.ImageController
             throw new NotImplementedException();
         }
 
-        public Task<Image> GetAsync(string resourceGroupName, string imageName, string expand, string api_version, string subscriptionId)
+        public async Task<Image> GetAsync(string resourceGroupName, string imageName, string expand, string api_version, string subscriptionId)
         {
-            throw new NotImplementedException();
+            return _mock?.Get!;
         }
 
         public Task<ImageListResult> ListAsync(string api_version, string subscriptionId)

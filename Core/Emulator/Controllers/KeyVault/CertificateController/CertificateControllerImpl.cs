@@ -1,6 +1,5 @@
 ﻿using CertificateController;
 using Newtonsoft.Json;
-using Action = CertificateController.Action;
 
 namespace Emulator.Controllers.KeyVault.CertificateController
 {

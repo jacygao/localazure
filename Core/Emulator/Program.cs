@@ -1,4 +1,4 @@
-using KeyController;
+using Emulator.Controllers.Compute.ImageController;
 using Emulator.Controllers.KeyVault.KeyController;
 using Emulator.Controllers.KeyVault.CertificateController;
 using Emulator.Providers.StoreProvider;
@@ -13,6 +13,8 @@ builder.Services.AddSingleton<IStoreProvider, InMemoryStoreProvider>();
 // Register the IController implementation
 builder.Services.AddScoped<KeyController.IController, KeyControllerImpl>();
 builder.Services.AddScoped<CertificateController.IController, CertificateControllerImpl>();
+
+builder.Services.AddScoped<ImageController.IImagesController, ImageControllerImpl>();
 
 // Add services to the container.
 builder.Services.AddControllers();
