@@ -485,7 +485,7 @@ namespace CertificateController
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
 
-    [ApiExplorerSettings(GroupName = "Certificates")]
+    [ApiExplorerSettings(GroupName = "KeyVault/Certificates")]
     public partial class Controller : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IController _implementation;
