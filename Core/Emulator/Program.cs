@@ -4,6 +4,7 @@ using Emulator.Controllers.KeyVault.CertificateController;
 using Emulator.Providers.StoreProvider;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,8 @@ builder.Services.AddSwaggerGen(c =>
         throw new InvalidOperationException("Unable to determine tag for endpoint.");
     });
     c.DocInclusionPredicate((name, api) => true);
+
+    c.CustomSchemaIds(type => type.ToString());
 });
 
 var app = builder.Build();

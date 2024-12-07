@@ -20,6 +20,7 @@
 
 namespace VirtualMachineController
 {
+    using Microsoft.AspNetCore.Mvc;
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -125,7 +126,7 @@ namespace VirtualMachineController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-
+    [ApiExplorerSettings(GroupName = "Compute/VirtualMachineExtensions")]
     public partial class VirtualMachineExtensionsController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IVirtualMachineExtensionsController _implementation;
@@ -659,7 +660,7 @@ namespace VirtualMachineController
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-
+    [ApiExplorerSettings(GroupName = "Compute/VirtualMachines")]
     public partial class VirtualMachinesController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         private IVirtualMachinesController _implementation;
