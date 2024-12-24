@@ -28,14 +28,17 @@ namespace Emulator.Controllers.KeyVault.KeyController
 
         public async Task<KeyBundle> CreateKeyAsync(string key_name, KeyCreateParameters parameters, string api_version)
         {
+            // Input validation
+            if (parameters.Kty is not KeyCreateParametersKty.RSA)
+            {
+                throw new Exception("only RSA is supported by key vault emulator");
+            }
+
             try
             {
                 // Generate RSA key
                 using var rsa = new RSACryptoServiceProvider(DefaultKeySize);
                 var rsaParameters = rsa.ExportParameters(true);
-
-                _store.Save(key_name, JsonSerializer.Serialize(parameters));
-
                 var currentUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
                 KeyBundle response = new()
@@ -66,6 +69,8 @@ namespace Emulator.Controllers.KeyVault.KeyController
                     }
                 };
 
+                _store.Save(key_name, JsonSerializer.Serialize(parameters));
+                
                 return response;
 
             }
