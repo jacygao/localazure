@@ -6,14 +6,26 @@ internal class Program
     private static readonly string endpoint = "https://localhost:8081";
     private static readonly string authKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-    private static readonly string databaseId = "samples";
+    private static readonly string databaseId = "testdb1";
     private static readonly string containerId = "container-samples";
 
     private static readonly string partitionKeyPath = "/category";
 
     public static async Task Main(string[] args)
     {
-        CosmosClient client = new CosmosClient(endpoint, authKey);
+        // LocalAzure CosmosDB Specific Options for CosmosDB Client.
+        CosmosClientOptions cosmosClientOptions = new()
+        {
+            // LocalAzure uses CosmosDB Linux Docker Image with only supports Gateway Mode.
+            // See https://learn.microsoft.com/en-us/azure/cosmos-db/emulator-linux
+            ConnectionMode = ConnectionMode.Gateway,
+
+            // Setting LimitToEndpoint to true to bypass inaccessible endpoints on the private Docker network.
+            // See https://github.com/Azure/azure-cosmos-dotnet-v3/issues/2706
+            LimitToEndpoint = true
+        };
+
+        CosmosClient client = new CosmosClient(endpoint, authKey, cosmosClientOptions);
 
         Database database = await client.CreateDatabaseIfNotExistsAsync(id: databaseId);
 
