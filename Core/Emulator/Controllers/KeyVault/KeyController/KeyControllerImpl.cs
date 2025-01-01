@@ -3,23 +3,20 @@ using Emulator.Providers.StoreProvider;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Emulator.Services.KeyVault;
+using Emulator.Providers.StoreProvider.Exceptions;
 
 namespace Emulator.Controllers.KeyVault.KeyController
 {
-    public class KeyControllerImpl : IController
+    public class KeyControllerImpl(IStoreProvider<object> store) : IController
     {
         private const int DefaultKeySize = 2048;
         private const JsonWebKeyCrv DefaultCrv = JsonWebKeyCrv.P256;
-        private List<string> DefaultKeyOps = new()
-        {
+        private readonly List<string> DefaultKeyOps =
+        [
             "encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"
-        };
+        ];
 
-        private IStoreProvider _store;
-        public KeyControllerImpl(IStoreProvider store)
-        {
-            _store = store;
-        }
+        private readonly IStoreProvider<object> _store = store;
 
         public Task<BackupKeyResult> BackupKeyAsync(string key_name, string api_version)
         {
@@ -41,7 +38,7 @@ namespace Emulator.Controllers.KeyVault.KeyController
                 var rsaParameters = rsa.ExportParameters(true);
                 var currentUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-                KeyBundle response = new()
+                KeyBundle keyBundle = new()
                 {
                     Key = new JsonWebKey
                     {
@@ -69,9 +66,9 @@ namespace Emulator.Controllers.KeyVault.KeyController
                     }
                 };
 
-                _store.Save(key_name, JsonSerializer.Serialize(parameters));
+                _store.Save(key_name, keyBundle);
                 
-                return response;
+                return keyBundle;
 
             }
             catch (Exception)
@@ -105,9 +102,14 @@ namespace Emulator.Controllers.KeyVault.KeyController
             throw new NotImplementedException();
         }
 
-        public Task<KeyBundle> GetKeyAsync(string key_name, string key_version, string api_version)
+        public async Task<KeyBundle> GetKeyAsync(string key_name, string key_version, string api_version)
         {
-            throw new NotImplementedException();
+            // Validate Inputs
+            ArgumentException.ThrowIfNullOrEmpty(key_name);
+            ArgumentException.ThrowIfNullOrEmpty(key_version);
+            ArgumentException.ThrowIfNullOrEmpty(api_version);
+
+            return _store.Load(key_name);
         }
 
         public Task<KeyRotationPolicy> GetKeyRotationPolicyAsync(string key_name, string api_version)

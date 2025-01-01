@@ -1,14 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Emulator.Providers.StoreProvider.Exceptions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Emulator.Providers.StoreProvider
 {
-    public class InMemoryStoreProvider<TItem> : IStoreProvider<TItem>
+    public class InMemoryStoreProvider<TItem>(IMemoryCache cache) : IStoreProvider<TItem>
     {
-        private readonly IMemoryCache _cache;
-
-        public InMemoryStoreProvider(IMemoryCache cache) {
-            this._cache = cache;
-        }
+        private readonly IMemoryCache _cache = cache;
 
         public void Save(string key, TItem? value)
         {
@@ -30,7 +27,7 @@ namespace Emulator.Providers.StoreProvider
                 return value;
             }
 
-            throw new Exception($"cache miss - key: {key}");
+            throw new ItemNotFoundException($"cache miss - key: {key}");
         }
 
         public void Delete(string key)
