@@ -6,7 +6,7 @@ using System.Text;
 internal class Program
 {
     private static readonly string connectionString = "Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;";
-    private static readonly string hubName = "eh1";
+    private static readonly string hubName = "testHub";
 
     public static async Task Main(string[] args)
     {

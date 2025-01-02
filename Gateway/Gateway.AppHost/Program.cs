@@ -8,6 +8,12 @@ builder.AddAzureCosmosDB("CosmosDB")
 // Run EventHub Emulator
 builder.AddAzureEventHubs("EventHub")
     .RunAsEmulator()
+    .WithHttpsEndpoint(5672,5672)
     .AddEventHub("testHub");
+
+// Run Azure Storage Emulator
+builder.AddAzureStorage("Storage")
+    .WithHttpsEndpoint(10000, 10000)
+    .RunAsEmulator();
 
 builder.Build().Run();
