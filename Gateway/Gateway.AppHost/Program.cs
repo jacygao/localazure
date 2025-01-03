@@ -4,16 +4,16 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddAzureCosmosDB("CosmosDB")
     .RunAsEmulator()
     .WithHttpsEndpoint(8081, 8081);
-    
-// Run EventHub Emulator
+
+// Run Azure Storage Emulator
+builder.AddAzureStorage("Storage")
+    .RunAsEmulator()
+    .WithHttpsEndpoint(10000, 10000);
+
+//Run EventHub Emulator
 builder.AddAzureEventHubs("EventHub")
     .RunAsEmulator()
     .WithHttpsEndpoint(5672,5672)
     .AddEventHub("testHub");
-
-// Run Azure Storage Emulator
-builder.AddAzureStorage("Storage")
-    .WithHttpsEndpoint(10000, 10000)
-    .RunAsEmulator();
 
 builder.Build().Run();
