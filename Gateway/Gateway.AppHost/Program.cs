@@ -10,10 +10,21 @@ builder.AddAzureStorage("Storage")
     .RunAsEmulator()
     .WithHttpsEndpoint(10000, 10000);
 
-//Run EventHub Emulator
+// Run Azure EventHub Emulator
 builder.AddAzureEventHubs("EventHub")
     .RunAsEmulator()
     .WithHttpsEndpoint(5672,5672)
     .AddEventHub("testHub");
+
+// Run Azure Redis Emulator
+builder.AddAzureRedis("AzureRedis")
+    .RunAsContainer(instance =>
+    {
+        instance.WithHttpsEndpoint(6379, 6379);
+    });
+
+// Run Azure PostgreSql Emulator
+builder.AddAzurePostgresFlexibleServer("PostgreSql")
+    .RunAsContainer();
 
 builder.Build().Run();

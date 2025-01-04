@@ -20,8 +20,6 @@ public static class Extensions
         builder.ConfigureOpenTelemetry();
 
         builder.AddDefaultHealthChecks();
-
-        builder.AddAzureCosmosClient("dbs");
         
         builder.Services.AddServiceDiscovery();
 
