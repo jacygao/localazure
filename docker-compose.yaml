@@ -83,6 +83,22 @@ services:
         environment:
           ACCEPT_EULA: ${ACCEPT_EULA}
           MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+  emulator:
+    build:
+      context: ./Core/Emulator
+      dockerfile: Dockerfile
+    container_name: emulator
+    ports:
+      - "7154:8080"
+      - "7155:443"
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORTS=7155
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123456
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/emulator.pfx
+    volumes:
+      - "./%USERPROFILE%/.aspnet/https:/https/"
 networks:
   sb-emulator:
   eh-emulator:

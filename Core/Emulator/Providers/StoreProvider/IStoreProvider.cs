@@ -1,9 +1,9 @@
 ﻿namespace Emulator.Providers.StoreProvider
 {
-    public interface IStoreProvider
+    public interface IStoreProvider<TItem> : IDisposable
     {
-        void Save(string key, string value);
-        string Load(string key);
+        public void Save(string key, TItem? value);
+        TItem Load(string key);
         void Delete(string key);
     }
 }

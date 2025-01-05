@@ -4,11 +4,15 @@ using Emulator.Controllers.KeyVault.CertificateController;
 using Emulator.Providers.StoreProvider;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Options;
+using KeyController;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IStoreProvider, InMemoryStoreProvider>();
+builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
+builder.Services.AddSingleton<IStoreProvider<KeyBundle>, InMemoryStoreProvider<KeyBundle>>();
 
 // Register the IController implementation
 builder.Services.AddScoped<KeyController.IController, KeyControllerImpl>();
@@ -41,6 +45,8 @@ builder.Services.AddSwaggerGen(c =>
         throw new InvalidOperationException("Unable to determine tag for endpoint.");
     });
     c.DocInclusionPredicate((name, api) => true);
+
+    c.CustomSchemaIds(type => type.ToString());
 });
 
 var app = builder.Build();

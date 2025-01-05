@@ -1,25 +1,44 @@
-﻿namespace Emulator.Providers.StoreProvider
+﻿using Emulator.Providers.StoreProvider.Exceptions;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Emulator.Providers.StoreProvider
 {
-    public class InMemoryStoreProvider : IStoreProvider
+    public class InMemoryStoreProvider<TItem>(IMemoryCache cache) : IStoreProvider<TItem>
     {
-        private readonly Dictionary<string, string> _store = new Dictionary<string, string>();
+        private readonly IMemoryCache _cache = cache;
 
-        public InMemoryStoreProvider() { }
-
-        public void Save(string key, string value)
+        public void Save(string key, TItem? value)
         {
-            _store[key] = value;
+            if (value is null) 
+            {
+                throw new Exception($"cache value empty - key: {key}");
+            }
+            _cache.Set(key, value);
         }
 
-        public string Load(string key)
+        public TItem Load(string key)
         {
-            _store.TryGetValue(key, out var value);
-            return value;
+            if (_cache.TryGetValue(key, out TItem? value))
+            {
+                if (value is null)
+                {
+                    throw new Exception($"cache miss - key: {key}");
+                }
+                return value;
+            }
+
+            throw new ItemNotFoundException($"cache miss - key: {key}");
         }
 
         public void Delete(string key)
         {
-            _store.Remove(key);
+            _cache.Remove(key);
+        }
+
+        public void Dispose()
+        {   
+            _cache.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 
