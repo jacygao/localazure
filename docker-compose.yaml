@@ -56,6 +56,33 @@ services:
       - "8080:8080"
     environment:
       ACCEPT_EULA: ${ACCEPT_EULA}
+  servicebus:
+    container_name: "servicebus-emulator"
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator:latest
+    volumes:
+      - "${Service_BUS_CONFIG_PATH}:/ServiceBus_Emulator/ConfigFiles/Config.json"
+    ports:
+      - "5572:5672"
+    environment:
+      SQL_SERVER: sqledge  
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      ACCEPT_EULA: ${ACCEPT_EULA}
+    depends_on:
+      - sqledge
+    networks:
+      sb-emulator:
+        aliases:
+          - "sb-emulator"
+  sqledge:
+        container_name: "sqledge"
+        image: "mcr.microsoft.com/azure-sql-edge:latest"
+        networks:
+          sb-emulator:
+            aliases:
+              - "sqledge"
+        environment:
+          ACCEPT_EULA: ${ACCEPT_EULA}
+          MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
   emulator:
     build:
       context: ./Core/Emulator
@@ -73,6 +100,7 @@ services:
     volumes:
       - "./%USERPROFILE%/.aspnet/https:/https/"
 networks:
+  sb-emulator:
   eh-emulator:
   cosmosdb-emulator:
   kusto:
