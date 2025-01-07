@@ -24,6 +24,9 @@ The following services are planned to be included in v1
 
 ## Getting Started
 
+>[!NOTE]
+>localazure only supports Windows users at this time.
+
 ### Prerequisite
 - Docker Engine
     - For Window users, get [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/#:~:text=Install%20Docker%20Desktop%20on%20Windows%201%20Download%20the,on%20your%20choice%20of%20backend.%20...%20More%20items)
@@ -46,15 +49,6 @@ You may need to run following command to set the execution policy for the curren
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 This change is not persistent; it only applies to the current session and does not affect other PowerShell sessions.
-
-#### Start localazure via Docker Compose
-In localazure root diretory, run
-```
-docker compose up
-```
-
->[!NOTE]
->Additional configuration steps are required when using docker compose. For details refer to the Configuration section.
 
 ### Configuration
 Please refer to the respective documentation for local configuration guide.
