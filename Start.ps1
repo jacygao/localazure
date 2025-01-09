@@ -8,7 +8,7 @@ try {
     exit 1
 }
 
-Start the application
+# Start the application
 try {
     dotnet run --project ./Gateway/Gateway.AppHost/Gateway.AppHost.csproj
 } catch {
