@@ -31,6 +31,8 @@ The following services are planned to be included in v1
 - Docker Engine
     - For Window users, get [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/#:~:text=Install%20Docker%20Desktop%20on%20Windows%201%20Download%20the,on%20your%20choice%20of%20backend.%20...%20More%20items)
     - For Mac or Linux, please download the respective Client from [the Docker Desktop download page](https://docs.docker.com/desktop/). 
+- .NET 8.0 or above
+    - Download from the [.NET Official Site](https://dotnet.microsoft.com/en-us/download/dotnet)
 
 >[!NOTE]
 >Before you continue with the subsequent steps, make sure Docker Engine is operational in the background.
