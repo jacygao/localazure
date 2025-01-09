@@ -17,47 +17,23 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
         Exit 1
     }
     Write-Host "Docker daemon is running"
-
-    # Run docker-compose up
-    Write-Host "Running 'docker-compose up'..."
-    docker-compose up -d
-
-    # Wait for all containers to start
-    Write-Host "Waiting for containers to start..."
-    $containers = docker compose ps -q
-    
-    foreach ($container in $containers) {
-        $containerName = docker inspect -f '{{.Name}}' $container
-        $containerName = $containerName.Trim('/') 
-
-        # Display initial status
-        Write-Host "$containerName starting" -NoNewline
-
-        do {
-            $status = (docker container inspect -f '{{.State.Status}}' $container)
-            Start-Sleep -Seconds 1
-
-            # Update status on the same line
-            if ($status -ne 'running') {
-                Write-Host "`r$containerName starting" -NoNewline
-            }
-
-        } while ($status -ne 'running')
-
-        # Update final status to "started" in green
-        Write-Host "`r$([char]27)[2K$containerName " -NoNewline
-        Set-TextColor -color Green
-        Write-Host "started" -NoNewline
-        Set-TextColor -color White
-        Write-Host ""
-    }
-    
-    Write-Host "All containers are started."
-    
-    # Run the specified script
-    Write-Host "Install CosmosDB Certificate..."
-    .\Scripts\CosmosDb\InstallCert.ps1
-    
 } else {
     Write-Host "Docker is not installed."
+}
+
+# Check if .NET SDK is installed and the version is >= 8.0.0
+$dotnetVersion = $null
+if (Get-Command dotnet -ErrorAction SilentlyContinue) {
+    $dotnetVersion = dotnet --version
+    if ($dotnetVersion -ge "8.0.0") {
+        Write-Host ".NET SDK version $dotnetVersion is installed."
+    } else {
+        Write-Host "Installed .NET SDK version is less than 8.0.0."
+        Write-Host "Please download the latest version of .NET SDK from: https://dotnet.microsoft.com/en-us/download/dotnet"
+        Exit 1
+    }
+} else {
+    Write-Host ".NET SDK is not installed."
+    Write-Host "Please download and install .NET SDK from: https://dotnet.microsoft.com/en-us/download/dotnet"
+    Exit 1
 }
