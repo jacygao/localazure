@@ -1,5 +1,11 @@
 # localazure
 
+---
+**NOTE**
+This project has won a Security Initiative award at the E+D Hackathon in 2025, and is now an internal project at Microsoft.
+This repo will only contain POC code for now.
+---...
+
 Run azure stack locally for rapid local development and debugging.
 
 Status: Under Development
